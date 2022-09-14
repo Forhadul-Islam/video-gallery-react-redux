@@ -3,11 +3,14 @@ import brandImage from "../../assets/man.svg";
 import Search from "./Search";
 import { MdDarkMode } from "react-icons/md";
 import { Link } from "react-router-dom";
+import useDarkMode from "../../hooks/useDarkMode";
 
 const Navbar: React.FC = () => {
+  const [darkTheme, setDarkTheme] = useDarkMode();
+  const handleChangeTheme = () => setDarkTheme(!darkTheme);
   return (
     <>
-      <nav className=" bg-slate-200 shadow-md">
+      <nav className=" dark:bg-neutral-900 bg-slate-200 shadow-md">
         <div className="max-w-7xl flex justify-between mx-auto py-2 px-3">
           <Link to="/" className="flex items-center">
             <img
@@ -23,7 +26,10 @@ const Navbar: React.FC = () => {
             </span> */}
           </Link>
           <div className="flex items-center">
-            <MdDarkMode className="text-3xl mr-3  text-gray-800 cursor-pointer transition ease-in-out duration-500 hover:text-white hover:bg-black p-1 rounded-full" />
+            <MdDarkMode
+              onClick={handleChangeTheme}
+              className="text-3xl mr-3 dark:text-gray-700 dark:bg-gray-200  text-gray-800 cursor-pointer transition ease-in-out duration-500 hover:text-white hover:bg-black p-1 rounded-full"
+            />
             <Search />
           </div>
         </div>

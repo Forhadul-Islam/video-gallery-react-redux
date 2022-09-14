@@ -24,17 +24,21 @@ const initialState: VideosState = {
   error: "",
 };
 
-//fetch videos
-export const fetchVideos = createAsyncThunk("videos/fetchVideos", async () => {
-  const videos = await getVideos();
-  return videos;
-});
+interface IAsyncParameteres {
+  tags: string[];
+  search: string;
+}
 
-const videosSlice: Slice<
-  VideosState,
-  SliceCaseReducers<VideosState>,
-  "videos"
-> = createSlice({
+//fetch videos
+export const fetchVideos = createAsyncThunk(
+  "videos/fetchVideos",
+  async ({ tags, search }: IAsyncParameteres) => {
+    const videos = await getVideos(tags, search);
+    return videos;
+  }
+);
+
+const videosSlice = createSlice({
   name: "videos",
   initialState,
   reducers: {},

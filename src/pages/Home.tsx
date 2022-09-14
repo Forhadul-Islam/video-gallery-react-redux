@@ -7,11 +7,11 @@ import Pagination from "../components/ui/Pagination";
 
 const Home: React.FC = () => {
   return (
-    <>
+    <div className="dark:bg-gray-200 ">
       <Tags />
       <VideoGrid />
       <Pagination />
-    </>
+    </div>
   );
 };
 

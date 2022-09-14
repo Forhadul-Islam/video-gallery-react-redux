@@ -9,10 +9,11 @@ const VideoGrid: React.FC = () => {
   const { error, isLoading, isError, videos } = useAppSelector(
     (state) => state.videos
   );
+  const { tags, search } = useAppSelector((state) => state.filter);
 
   useEffect(() => {
-    dispatch(fetchVideos());
-  }, [dispatch]);
+    dispatch(fetchVideos({ tags, search }));
+  }, [dispatch, tags, search]);
 
   let videoContent;
   if (isLoading) {
@@ -26,7 +27,7 @@ const VideoGrid: React.FC = () => {
   }
 
   return (
-    <section className="pt-12">
+    <section className="pt-12 mx-5">
       <div className="grid grid-cols-12 gap-4 max-w-7xl mx-auto px-5 lg:px-0 min-h-[300px]">
         {videoContent}
       </div>
