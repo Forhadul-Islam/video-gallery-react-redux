@@ -1,7 +1,7 @@
 import React, { FormEvent, useState } from "react";
 import { BiSearchAlt2 } from "react-icons/bi";
 import { useAppDispatch } from "../../app/hooks";
-import { searchAdded } from "../../features/filter/filterSlice";
+import { pageChanged, searchAdded } from "../../features/filter/filterSlice";
 
 const Search: React.FC = () => {
   const [input, setInput] = useState<string>("");
@@ -23,7 +23,10 @@ const Search: React.FC = () => {
     };
   };
   const handleSearchOnChange = (text: string) => {
-    debounce(() => dispatch(searchAdded(text)), 200)();
+    dispatch(pageChanged(1));
+    debounce(() => {
+      dispatch(searchAdded(text));
+    }, 1000)();
   };
   return (
     <>

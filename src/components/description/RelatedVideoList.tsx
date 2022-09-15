@@ -14,9 +14,9 @@ const RelatedVideoList: React.FC<IProps> = ({ tags, id }) => {
   const { isError, isLoading, error, videos } = useAppSelector(
     (state) => state.relatedVideos
   );
-  useEffect(() => {
-    dispatch(fetchRelatedVideos({ id, tags }));
-  }, [dispatch, id, tags]);
+  // useEffect(() => {
+  //   dispatch(fetchRelatedVideos({ id, tags }));
+  // }, [dispatch, id, tags]);
 
   if (isLoading)
     return (

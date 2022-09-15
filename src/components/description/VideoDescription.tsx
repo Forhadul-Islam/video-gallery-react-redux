@@ -1,6 +1,8 @@
+import { AxiosResponse } from "axios";
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { fetchRelatedVideos } from "../../features/relatedVideos/relatedVideosSlice";
 import { fetchVideo } from "../../features/video/videoSlice";
 import { Video } from "../../types";
 import LikeUnlike from "./LikeUnlike";
@@ -13,9 +15,14 @@ const VideoDescription: React.FC = () => {
   );
   const { title, description, link, tags, date, id } = video as Video;
   const dispatch = useAppDispatch();
-  const { videoId } = useParams();
+  const { videoId } = useParams<string>();
+  const currentVideoId = videoId as string | number;
   useEffect(() => {
-    videoId && dispatch(fetchVideo(videoId));
+    const videoFetcher = async () => {
+      const video = await dispatch(fetchVideo(currentVideoId)).unwrap();
+      await dispatch(fetchRelatedVideos({ id: video?.id, tags: video?.tags }));
+    };
+    videoFetcher();
   }, [videoId, dispatch]);
 
   if (isLoading) {

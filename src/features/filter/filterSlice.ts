@@ -3,11 +3,15 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface filterState {
   tags: string[];
   search: string;
+  page: number;
+  postPerPage: number;
 }
 
 const initialState: filterState = {
   tags: [],
   search: "",
+  page: 1,
+  postPerPage: 4,
 };
 
 const filterSlice = createSlice({
@@ -26,8 +30,16 @@ const filterSlice = createSlice({
     searchAdded: (state: filterState, action: PayloadAction<string>) => {
       state.search = action.payload;
     },
+    resetFilter: (state: filterState) => {
+      state.tags = [];
+      state.search = "";
+    },
+    pageChanged: (state: filterState, action: PayloadAction<number>) => {
+      state.page = action.payload;
+    },
   },
 });
 
 export default filterSlice.reducer;
-export const { tagAdded, tagRemoved, searchAdded } = filterSlice.actions;
+export const { tagAdded, tagRemoved, searchAdded, resetFilter, pageChanged } =
+  filterSlice.actions;

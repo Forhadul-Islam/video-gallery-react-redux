@@ -9,11 +9,16 @@ const VideoGrid: React.FC = () => {
   const { error, isLoading, isError, videos } = useAppSelector(
     (state) => state.videos
   );
-  const { tags, search } = useAppSelector((state) => state.filter);
+  const {
+    tags,
+    search,
+    page,
+    postPerPage: limit,
+  } = useAppSelector((state) => state.filter);
 
   useEffect(() => {
-    dispatch(fetchVideos({ tags, search }));
-  }, [dispatch, tags, search]);
+    dispatch(fetchVideos({ tags, search, page, limit }));
+  }, [dispatch, tags, search, page]);
 
   let videoContent;
   if (isLoading) {
@@ -24,6 +29,12 @@ const VideoGrid: React.FC = () => {
     videoContent = videos.map((video) => (
       <VideoGridItem key={video.id} video={video} />
     ));
+  } else if (!isLoading && !isError && videos.length == 0) {
+    videoContent = (
+      <div className="col-span-12 mx-auto text-2xl font-semibold">
+        No videos found!
+      </div>
+    );
   }
 
   return (

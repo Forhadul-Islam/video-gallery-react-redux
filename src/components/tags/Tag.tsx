@@ -1,6 +1,10 @@
 import React from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { tagAdded, tagRemoved } from "../../features/filter/filterSlice";
+import {
+  pageChanged,
+  tagAdded,
+  tagRemoved,
+} from "../../features/filter/filterSlice";
 
 interface IProps {
   title: string;
@@ -16,6 +20,7 @@ const Tag: React.FC<IProps> = ({ title }) => {
     } else {
       dispatch(tagAdded(title));
     }
+    dispatch(pageChanged(1));
   };
   const style = isSelected
     ? "bg-gray-600 border-2 border-white text-white px-4 py-1  rounded-full cursor-pointer"

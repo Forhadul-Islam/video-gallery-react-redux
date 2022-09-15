@@ -12,6 +12,7 @@ import { getVideos } from "./videosAPI";
 
 interface VideosState {
   videos: Video[];
+  totalVideos: number;
   isLoading: boolean;
   isError: boolean;
   error: string | undefined;
@@ -19,6 +20,7 @@ interface VideosState {
 
 const initialState: VideosState = {
   videos: [],
+  totalVideos: 0,
   isLoading: false,
   isError: false,
   error: "",
@@ -27,13 +29,15 @@ const initialState: VideosState = {
 interface IAsyncParameteres {
   tags: string[];
   search: string;
+  page: number;
+  limit: number;
 }
 
 //fetch videos
 export const fetchVideos = createAsyncThunk(
   "videos/fetchVideos",
-  async ({ tags, search }: IAsyncParameteres) => {
-    const videos = await getVideos(tags, search);
+  async ({ tags, search, page, limit }: IAsyncParameteres) => {
+    const videos = await getVideos(tags, search, page, limit);
     return videos;
   }
 );
@@ -50,9 +54,13 @@ const videosSlice = createSlice({
       })
       .addCase(
         fetchVideos.fulfilled,
-        (state: VideosState, action: PayloadAction<Video[]>) => {
+        (
+          state: VideosState,
+          action: PayloadAction<{ videos: Video[]; videoCount: number }>
+        ) => {
           state.isLoading = false;
-          state.videos = action.payload;
+          state.videos = action.payload.videos;
+          state.totalVideos = action.payload.videoCount;
         }
       )
       .addCase(fetchVideos.rejected, (state, action) => {
